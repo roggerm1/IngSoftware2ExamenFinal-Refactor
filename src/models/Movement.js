@@ -25,14 +25,14 @@ export class Movement {
 
 
 
-export class FeeMovement extends Movement {
+export class FeeMovement extends BaseMovement {
   constructor(props) {
     super(props);
     this.type = "fee";
-    this.color = this.color || "orange";
-    this.icon = this.icon || "⚠️";
+    this.color = "orange";
+    this.icon = "⚠️";
   }
   netAmount() {
-    return -Math.abs(this.amount || 0);
+    return -Math.abs(this.amount);
   }
 }
