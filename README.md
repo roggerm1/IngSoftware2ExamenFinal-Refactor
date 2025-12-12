@@ -1,19 +1,17 @@
-# React + Vite
+# Refactor de Movimientos Bancarios — Factory Pattern + OCP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto fue refactorizado para eliminar el acoplamiento entre la UI y las clases concretas de movimientos (IncomeMovement, ExpenseMovement, TransferMovement, RefundMovement).  
+La solución implementa el **Factory Pattern** y el **Principio Abierto/Cerrado (OCP)**, permitiendo agregar nuevos tipos de movimiento sin modificar la interfaz de usuario.
 
-Currently, two official plugins are available:
+---
+ Objetivos del Refactor
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+ 1. Desacoplar la UI del dominio
+Antes del refactor, el componente `MovementList.jsx` importaba clases concretas como:
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```js
+import { Deposit } from '../models/Deposit';
+import { Payment } from '../models/Payment';
 
 ## Refactor: Factory Pattern + OCP
 
@@ -25,8 +23,26 @@ If you are developing a production application, we recommend using TypeScript wi
   2. Registrar en MovementFactory
   3. Sin tocar la UI.
 
-### Instrucciones para correr:
-```
-npm install
+Esto generaba:
+
+Alto acoplamiento
+
+Violación de OCP
+
+Dependencia innecesaria de la UI hacia el dominio
+
+El refactor elimina completamente estas importaciones.
+
+
+import { createMovement } from '../models/MovementFactory';
+
+function buildMovement(data) {
+  return createMovement(data.type, data);
+}
+
+Intrucciones para ejecutar el proyecto
 npm run dev
-```
+
+
+
+
