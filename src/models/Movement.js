@@ -25,7 +25,7 @@ export class Movement {
 
 
 
-export class FeeMovement extends BaseMovement {
+export class FeeMovement extends Movement {
   constructor(props) {
     super(props);
     this.type = "fee";
