@@ -1,26 +1,24 @@
-import { Deposit } from '../models/Deposit';
-import { Withdrawal } from '../models/Withdrawal';
-import { Transfer } from '../models/Transfer';
-import { Payment } from '../models/Payment';
+import { createMovement } from '../models/MovementFactory';
 import MovementCard from './MovementCard';
 import './MovementList.css';
 
-// TODO: extract creation
-function createMovement(data) {
-  const movement = createMovement(m.type, m)`);
-  }
+function buildMovement(data) {
+  return createMovement(data.type, data);
 }
 
 function MovementList({ movementsData }) {
-  const movements = movementsData.map(data => createMovement(data));
+  const movements = movementsData.map(data => buildMovement(data));
 
-  const totalBalance = movements.reduce((sum, m) => sum + m.getNetAmount(), 0);
+  const totalBalance = movements.reduce(
+    (sum, m) => sum + m.getNetAmount(), 
+    0
+  );
 
   const formatBalance = (amount) => {
     const isPositive = amount >= 0;
     const formatted = Math.abs(amount).toLocaleString('es-HN', {
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     });
     return `${isPositive ? '+' : '-'} L ${formatted}`;
   };
